@@ -19,7 +19,6 @@ CFLAGS = $(OFLAG) $(LTO) $(TRIE) -g -Wall \
 	 -I$(DT_TOOLCHAIN_DIR)/usr/local/include
 
 LIBSTUFF = -L$(SYMROOT)/../libstuff -lstuff
-CXXLIB = -stdlib=libc++
 
 ifeq "" "$(TRIE)"
   LIB_PRUNETRIE =
@@ -206,7 +205,7 @@ strip.NEW: strip.o
 		-o $(OBJROOT)/strip.private.o \
 		$(OFILE_DIR)/strip.o $(LIBSTUFF)
 	$(CXX) $(RC_CFLAGS) $(SDK) -o $(SYMROOT)/strip.NEW \
-		$(OFILE_DIR)/strip.private.o $(LIB_PRUNETRIE) $(CXXLIB)
+		$(OFILE_DIR)/strip.private.o $(LIB_PRUNETRIE)
 	$(DSYMUTIL) $(SYMROOT)/strip.NEW
 
 nmedit.NEW: nmedit.o

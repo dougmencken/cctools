@@ -21,7 +21,6 @@ CFLAGS = $(OFLAG) $(LTO) -g -Wall -I$(SRCROOT)/../include \
 	 -I$(SRCROOT) $(LEGACY) $(EFI_SUPPORT) $(SDK)
 
 LIBSTUFF = -L$(SYMROOT)/../libstuff -lstuff
-CXXLIB = -stdlib=libc++
 
 MKDIRS = /bin/mkdir -p
 SRCROOT = .
@@ -53,7 +52,7 @@ $(PRODUCT).NEW:	$(OFILE_DIR) $(SYMROOT) $(OBJS)
 	$(CC) $(RC_CFLAGS) -nostdlib -r -o $(OBJROOT)/private.o \
 		$(OBJS) $(LIBSTUFF)
 	$(CXX) $(RC_CFLAGS) $(SDK) -o $(SYMROOT)/$@ $(OBJROOT)/private.o \
-		$(LIBSTUFF) $(CXXLIB)
+		$(LIBSTUFF)
 	$(DSYMUTIL) $(SYMROOT)/$@
 
 .c.o:
