@@ -1,0 +1,8 @@
+*.tmp
+*.a
+*.o
+*.NEW
+*.NEW.dSYM
+*.dylib
+*_dir
+*_obj
