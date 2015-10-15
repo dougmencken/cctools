@@ -296,6 +296,13 @@ static int rel_bsearch(
     uint32_t *address,
     struct relocation_info *rel);
 
+/* Implementation of strnlen */
+size_t p_strnlen(const char *s, size_t maxlen)
+{
+    const char *end = memchr(s, 0, maxlen);
+    return end ? (size_t)(end - s) : maxlen;
+}
+
 /*
  * Print the fat header and the fat_archs.  The caller is responsible for making
  * sure the structures are properly aligned and that the fat_archs is of the
@@ -3694,7 +3701,7 @@ struct load_command *lc)
 	    if(left > 0){
 		i++;
 		printf("  string #%d %.*s\n", i, left, string);
-		len = strnlen(string, left) + 1;
+		len = p_strnlen(string, left) + 1;
 		string += len;
 		left -= len;
 	    }

@@ -37,6 +37,8 @@
 #import <stuff/bool.h>
 #include "stuff/symbol.h"
 
+size_t p_strnlen(const char *s, size_t maxlen);
+
 extern void print_fat_headers(
     struct fat_header *fat_header,
     struct fat_arch *fat_archs,
