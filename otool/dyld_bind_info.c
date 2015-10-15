@@ -353,7 +353,8 @@ uint64_t *ndbi)
 		    skip = read_uleb128(&p, end);
 		    sectName = sectionName(segIndex, segStartAddr + segOffset,
 					   segs, nsegs, segs64, nsegs64);
-		    for (uint32_t i=0; i < count; ++i) {
+		    uint32_t i;
+                    for (i=0; i < count; ++i) {
 			if(pass == 2){
 			    (*dbi)[n].segname = segName;
 			    (*dbi)[n].sectname = sectName;
