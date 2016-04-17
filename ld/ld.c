@@ -2060,11 +2060,11 @@ unknown_flag:
 	 */
 	if(arch_flag.name != NULL){
 
-	    /*
-	     * 64-bit architectures are an error.
-	     */
-	    if(arch_flag.cputype & CPU_ARCH_ABI64)
-		fatal("does not support 64-bit architectures");
+            if( arch_flag.cputype & CPU_ARCH_ABI64 ) {
+	        /*
+                 * 64-bit architecture
+                 */
+            }
 
 	    family_arch_flag = get_arch_family_from_cputype(arch_flag.cputype);
 	    if(family_arch_flag == NULL)
@@ -2959,13 +2959,9 @@ unknown_flag:
 	    }
 	}
 
- 	/*
-	 * If the architecture was not specified, and was inferred
-	 * from the object files, if it is a 64-bit architecture it is an error.
-	 */
 	if(arch_flag.cputype != 0 &&
 	    arch_flag.cputype & CPU_ARCH_ABI64){
-	    fatal("does not support 64-bit architectures");
+	    /* 64-bit architecture */
 	}
 
 	/*

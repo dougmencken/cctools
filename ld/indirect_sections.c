@@ -1509,8 +1509,17 @@ void
 output_indirect_symbols(
 void)
 {
-    unsigned long i, nindirect_symbols;
-    uint32_t *indirect_symbols;
+    size_t i, nindirect_symbols;
+
+    typedef uint32_t  symbols_t;
+  /*
+    if( arch_flag.cputype != 0 && ( arch_flag.cputype & CPU_ARCH_ABI64 ) )
+      {
+        typedef uint32_t  symbols_t;
+      }
+  */
+
+    symbols_t *indirect_symbols;
     struct merged_segment **p, *msg;
     struct merged_section **content, *ms;
     struct indirect_section_data *data;
@@ -1523,7 +1532,7 @@ void)
 	    fatal("can't use -s with input files containing indirect symbols "
 		  "(output file must contain at least global symbols, for "
 		  "maximum stripping use -x)");
-	indirect_symbols = (uint32_t *)(output_addr +
+	indirect_symbols = (symbols_t *)(output_addr +
 			output_dysymtab_info.dysymtab_command.indirectsymoff);
 	nindirect_symbols = 0;
 	p = &merged_segments;
@@ -1602,7 +1611,7 @@ void)
 		target_byte_sex);
 #ifndef RLD
 	output_flush(output_dysymtab_info.dysymtab_command.indirectsymoff,
-		     nindirect_symbols * sizeof(uint32_t));
+		     nindirect_symbols * sizeof( symbols_t ));
 #endif /* !defined(RLD) */
 }
 #endif /* !defined(SA_RLD) */

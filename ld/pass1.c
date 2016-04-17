@@ -4176,6 +4176,14 @@ check_cur_obj(
 enum bool dylib_only,
 enum bool bundle_loader)
 {
+    typedef uint32_t  symbols_t;
+  /*
+    if( arch_flag.cputype != 0 && ( arch_flag.cputype & CPU_ARCH_ABI64 ) )
+      {
+        typedef uint32_t  symbols_t;
+      }
+  */
+
     unsigned long i, j, section_type;
     uint32_t magic;
     struct mach_header *mh;
@@ -4202,7 +4210,7 @@ enum bool bundle_loader)
     cpu_subtype_t new_cpusubtype;
     const char *new_arch, *prev_arch;
     const struct arch_flag *family_arch_flag;
-    uint32_t *indirect_symtab;
+    symbols_t *indirect_symtab;
     struct dylib_table_of_contents *tocs;
     struct dylib_module *mods;
     struct dylib_reference *refs;
@@ -5439,7 +5447,7 @@ enum bool bundle_loader)
 		}
 
 		if(dyst->nindirectsyms != 0){
-		    indirect_symtab = (uint32_t *)(cur_obj->obj_addr +
+		    indirect_symtab = (symbols_t *)(cur_obj->obj_addr +
 					    dyst->indirectsymoff);
 		    if(cur_obj->swapped)
 			swap_indirect_symbols(indirect_symtab,
