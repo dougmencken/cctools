@@ -4575,9 +4575,9 @@ uintptr_t value)
 	if((filename = demand_copy_string(&length))){
 	    demand_empty_rest_of_line();
 	    if((dump_fp = fopen(filename, "w+"))){
-		hash_traverse(ma_hash, write_macro);
+		traverse_hash( ma_hash, write_macro );
 		fwrite(null_string, 1, 1, dump_fp);
-		hash_traverse(sy_hash, write_symbol);
+		traverse_hash( sy_hash, write_symbol );
 		fwrite(null_string, 1, 1, dump_fp);
 		fclose(dump_fp);
 	    }
@@ -4587,7 +4587,7 @@ uintptr_t value)
 }
 
 /*
- * write_macro() used by hash_traverse indirectly through s_dump() to write one
+ * write_macro() used by traverse_hash indirectly through s_dump() to write one
  * macro.
  */
 static
@@ -4605,7 +4605,7 @@ PTR value1)
 }
 
 /*
- * write_symbol() used by hash_traverse indirectly through s_dump() to write one
+ * write_symbol() used by traverse_hash indirectly through s_dump() to write one
  * N_ABS symbol and its value.
  */
 static

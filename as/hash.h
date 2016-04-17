@@ -81,8 +81,8 @@ extern PTR hash_delete (struct hash_control *, const char *key);
 /* Traverse a hash table.  Call the function on every entry in the
    hash table.  */
 
-extern void hash_traverse (struct hash_control *,
-			   void (*pfn) (const char *key, PTR value));
+extern void traverse_hash( struct hash_control *,
+			   void (*pfn) (const char *key, PTR value) );
 
 /* Print hash table statistics on the specified file.  NAME is the
    name of the hash table, used for printing a header.  */

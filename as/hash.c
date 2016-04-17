@@ -354,8 +354,8 @@ hash_delete (struct hash_control *table, const char *key)
    hash table.  */
 
 void
-hash_traverse (struct hash_control *table,
-	       void (*pfn) (const char *key, PTR value))
+traverse_hash( struct hash_control *table,
+               void (*pfn) (const char *key, PTR value) )
 {
   unsigned int i;
 
@@ -472,10 +472,10 @@ main ()
 	    }
 	  break;
 	case 'a':
-	  hash_traverse (h, applicatee);
+	  traverse_hash( h, applicatee );
 	  break;
 	case 'd':
-	  hash_traverse (h, destroy);
+	  traverse_hash( h, destroy );
 	  hash_die (h);
 	  break;
 	case 'f':
