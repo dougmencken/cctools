@@ -132,17 +132,6 @@ typedef const char *(*LLVMSymbolLookupCallback)(void *DisInfo,
 /* The input reference is from a PC relative load instruction. */
 #define LLVMDisassembler_ReferenceType_In_PCrel_Load 2
 
-/* The input reference is from an ARM64::ADRP instruction. */
-#define LLVMDisassembler_ReferenceType_In_ARM64_ADRP 0x100000001
-/* The input reference is from an ARM64::ADDXri instruction. */
-#define LLVMDisassembler_ReferenceType_In_ARM64_ADDXri 0x100000002
-/* The input reference is from an ARM64::LDRXui instruction. */
-#define LLVMDisassembler_ReferenceType_In_ARM64_LDRXui 0x100000003
-/* The input reference is from an ARM64::LDRXl instruction. */
-#define LLVMDisassembler_ReferenceType_In_ARM64_LDRXl 0x100000004
-/* The input reference is from an ARM64::ADR instruction. */
-#define LLVMDisassembler_ReferenceType_In_ARM64_ADR 0x100000005
-
 /* The output reference is to as symbol stub. */
 #define LLVMDisassembler_ReferenceType_Out_SymbolStub 1
 /* The output reference is to a symbol address in a literal pool. */

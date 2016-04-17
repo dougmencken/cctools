@@ -15,6 +15,19 @@
 #include "arm64_disasm.h"
 #include "cxa_demangle.h"
 
+#define one_and_32_zeroes  ( (uint64_t)1 << 0x20 )
+
+/* The input reference is from an ARM64::ADRP instruction */
+const uint64_t LLVMDisassembler_ReferenceType_In_ARM64_ADRP = 1 + one_and_32_zeroes;
+/* The input reference is from an ARM64::ADDXri instruction */
+const uint64_t LLVMDisassembler_ReferenceType_In_ARM64_ADDXri = 2 + one_and_32_zeroes;
+/* The input reference is from an ARM64::LDRXui instruction */
+const uint64_t LLVMDisassembler_ReferenceType_In_ARM64_LDRXui = 3 + one_and_32_zeroes;
+/* The input reference is from an ARM64::LDRXl instruction */
+const uint64_t LLVMDisassembler_ReferenceType_In_ARM64_LDRXl = 4 + one_and_32_zeroes;
+/* The input reference is from an ARM64::ADR instruction */
+const uint64_t LLVMDisassembler_ReferenceType_In_ARM64_ADR = 5 + one_and_32_zeroes;
+
 struct disassemble_info {
   /* otool(1) specific stuff */
   enum bool verbose;
