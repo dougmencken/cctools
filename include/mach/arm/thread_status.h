@@ -22,6 +22,7 @@
  *  Flavors
  */
 
+#undef THREAD_STATE_NONE   /* less warnings */
 #define ARM_THREAD_STATE		1
 #define ARM_VFP_STATE			2
 #define ARM_EXCEPTION_STATE		3
@@ -47,6 +48,7 @@
 #define ARM_DEBUG_STATE64		(THREAD_STATE_LAST+7)
 #define ARM_NEON_STATE64		(THREAD_STATE_LAST+9)
 
+#undef VALID_THREAD_STATE_FLAVOR
 #define VALID_THREAD_STATE_FLAVOR(x)\
 ((x == ARM_THREAD_STATE) 		||	\
  (x == ARM_VFP_STATE) 			||	\
@@ -102,6 +104,8 @@ typedef _STRUCT_ARM_LEGACY_DEBUG_STATE		arm_debug_state_t;
 #define ARM_DEBUG_STATE_COUNT ((mach_msg_type_number_t) \
    (sizeof (arm_debug_state_t)/sizeof(uint32_t)))
 
+#undef MACHINE_THREAD_STATE
+#undef MACHINE_THREAD_STATE_COUNT
 #define MACHINE_THREAD_STATE ARM_THREAD_STATE64
 #define MACHINE_THREAD_STATE_COUNT  ARM_THREAD_STATE_COUNT64
 

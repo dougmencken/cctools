@@ -35,22 +35,31 @@
 
 #include <mach-o/fat.h>
 #include <mach-o/loader.h>
+
 #include <mach/m68k/thread_status.h>
-#undef MACHINE_THREAD_STATE	/* need to undef these to avoid warnings */
+#undef MACHINE_THREAD_STATE	/* undef these to avoid warnings */
 #undef MACHINE_THREAD_STATE_COUNT
 #undef THREAD_STATE_NONE
 #undef VALID_THREAD_STATE_FLAVOR
+
 #include <mach/ppc/thread_status.h>
-#undef MACHINE_THREAD_STATE	/* need to undef these to avoid warnings */
+#undef MACHINE_THREAD_STATE	/* less warnings */
 #undef MACHINE_THREAD_STATE_COUNT
 #undef THREAD_STATE_NONE
 #undef VALID_THREAD_STATE_FLAVOR
+
 #include <mach/m88k/thread_status.h>
+
 #include <mach/i860/thread_status.h>
+
 #include <mach/i386/thread_status.h>
+
 #include <mach/hppa/thread_status.h>
+
 #include <mach/sparc/thread_status.h>
+
 #include <mach/arm/thread_status.h>
+
 #include <mach-o/nlist.h>
 #include <mach-o/reloc.h>
 #include <mach-o/ranlib.h>
@@ -227,12 +236,12 @@ __private_extern__ void swap_i860_thread_state_regs(
     struct i860_thread_state_regs *cpu,
     enum byte_sex target_byte_sex);
 
+/* current i386 thread states */
+#if i386_THREAD_STATE == 1
 __private_extern__ void swap_i386_thread_state(
     i386_thread_state_t *cpu,
     enum byte_sex target_byte_sex);
 
-/* current i386 thread states */
-#if i386_THREAD_STATE == 1
 __private_extern__ void swap_i386_float_state(
     struct __darwin_i386_float_state *fpu,
     enum byte_sex target_byte_sex);
