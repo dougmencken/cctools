@@ -244,7 +244,7 @@ __private_extern__ void swap_i386_thread_state(
     enum byte_sex target_byte_sex);
 
 __private_extern__ void swap_i386_float_state(
-    struct __darwin_i386_float_state *fpu,
+    darwin_i386_float_state_t *fpu,
     enum byte_sex target_byte_sex);
 
 __private_extern__ void swap_i386_exception_state(

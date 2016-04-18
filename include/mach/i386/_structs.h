@@ -264,6 +264,7 @@ _STRUCT_X86_FLOAT_STATE32
 	char			__fpu_rsrv4[14*16];	/* reserved */
 	int 			__fpu_reserved1;
 };
+typedef _STRUCT_X86_FLOAT_STATE32  darwin_i386_float_state_t;
 
 #define	_STRUCT_X86_AVX_STATE32	struct __darwin_i386_avx_state
 _STRUCT_X86_AVX_STATE32
