@@ -56,6 +56,11 @@ else
 	STATIC_KLD = 
 endif
 
+ifeq "q$(RC_ProjectSourceVersion)p" "qp"
+	RC_ProjectSourceVersion = git $(shell date +%Y).$(shell date +%m | sed 's/^0*//').$(shell date +%d | sed 's/^0*//')
+endif
+
+
 all: $(OFILE_DIRS) $(SYMROOT) dynamic profile $(STATIC_KLD)
 
 lib_static_ofiles: $(STATIC_KLD)
