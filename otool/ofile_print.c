@@ -207,7 +207,6 @@
 #include <ctype.h>
 #include <math.h>
 #include <limits.h>
-#include <ar.h>
 #include <libc.h>
 #include <mach-o/fat.h>
 #include <mach-o/loader.h>
@@ -219,6 +218,9 @@
 #include <mach-o/sparc/reloc.h>
 #include <mach-o/arm/reloc.h>
 #include <mach-o/arm64/reloc.h>
+
+#import <ar_include.h>
+
 #include "stuff/symbol.h"
 #include "stuff/ofile.h"
 #include "stuff/allocate.h"

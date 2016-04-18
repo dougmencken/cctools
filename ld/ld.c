@@ -48,7 +48,9 @@
 #include <signal.h>
 #include <errno.h>
 #include <libc.h>
-#include <ar.h>
+
+#import <ar_include.h>
+
 #include <mach/mach.h>
 #include <mach/mach_error.h>
 #include "stuff/seg_addr_table.h"

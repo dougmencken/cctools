@@ -51,7 +51,9 @@
 #else /* defined(KLD) && defined(__STATIC__) */
 #include <mach/kern_return.h>
 #endif /* !(defined(KLD) && defined(__STATIC__)) */
-#include <ar.h>
+
+#import <ar_include.h>
+
 #ifndef AR_EFMT1
 #define	AR_EFMT1	"#1/"		/* extended format #1 */
 #endif

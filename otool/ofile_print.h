@@ -28,7 +28,9 @@
  *
  * @APPLE_LICENSE_HEADER_END@
  */
-#import <ar.h>
+
+#import <ar_include.h>
+
 #import <mach-o/fat.h>
 #import <mach-o/loader.h>
 #import <mach-o/nlist.h>

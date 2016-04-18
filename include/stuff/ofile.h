@@ -28,10 +28,12 @@
 #define __private_extern__ __declspec(private_extern)
 #endif
 
-#import <ar.h>
+#import <ar_include.h>
+
 #ifndef AR_EFMT1
 #define	AR_EFMT1	"#1/"		/* extended format #1 */
 #endif
+
 #import <mach-o/loader.h>
 #ifdef OFI
 #import <mach-o/dyld.h>

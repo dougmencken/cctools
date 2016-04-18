@@ -35,7 +35,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
-#include <ar.h>
+
+#import <ar_include.h>
+
 #include <mach-o/ranlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>

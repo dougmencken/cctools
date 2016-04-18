@@ -32,7 +32,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
-#include <ar.h>
+
+#import <ar_include.h>
+
 #include <mach-o/ranlib.h>
 #include <libc.h>
 #include "stuff/bool.h"

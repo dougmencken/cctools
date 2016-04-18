@@ -71,7 +71,8 @@ static char rcsid[] = "$OpenBSD: ar.c,v 1.3 1997/01/15 23:42:11 millert Exp $";
 
 #include <sys/param.h>
 
-#include <ar.h>
+#import <ar_include.h>
+
 #include <dirent.h>
 #include <err.h>
 #include <paths.h>

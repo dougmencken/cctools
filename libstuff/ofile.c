@@ -44,7 +44,9 @@
 #include <limits.h>
 #include <errno.h>
 #include <ctype.h>
-#include <ar.h>
+
+#import <ar_include.h>
+
 #include <sys/file.h>
 #include <sys/types.h>
 #include <sys/mman.h>

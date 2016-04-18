@@ -45,7 +45,9 @@
 #include <mach-o/reloc.h>
 #include <mach-o/ppc/reloc.h>
 #include <mach-o/hppa/reloc.h>
-#include <ar.h>
+
+#import <ar_include.h>
+
 #include "stuff/arch.h"
 #include "stuff/reloc.h"
 

@@ -40,10 +40,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <ar.h>
+
+#import <ar_include.h>
+
 #ifndef AR_EFMT1
 #define	AR_EFMT1	"#1/"		/* extended format #1 */
 #endif
+
 #include <limits.h>
 #include <errno.h>
 #include <ctype.h>

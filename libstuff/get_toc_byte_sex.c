@@ -22,10 +22,13 @@
  */
 #include <stdlib.h>
 #include <string.h>
-#include <ar.h>
+
+#import <ar_include.h>
+
 #ifndef AR_EFMT1
 #define	AR_EFMT1	"#1/"		/* extended format #1 */
 #endif
+
 #include <mach-o/loader.h>
 #include <stuff/bytesex.h>
 #include <stuff/rnd.h>

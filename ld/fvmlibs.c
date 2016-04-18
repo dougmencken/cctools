@@ -33,7 +33,9 @@
 #include <strings.h>
 #include <mach/mach.h>
 #include <mach-o/loader.h>
-#include <ar.h>
+
+#import <ar_include.h>
+
 #include "stuff/bool.h"
 #include "stuff/bytesex.h"
 

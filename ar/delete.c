@@ -69,7 +69,8 @@ static char rcsid[] = "$OpenBSD: delete.c,v 1.2 1996/06/26 05:31:19 deraadt Exp 
 #include <sys/param.h>
 #include <sys/stat.h>
 
-#include <ar.h>
+#import <ar_include.h>
+
 #include <dirent.h>
 #include <fcntl.h>
 #include <stdio.h>
