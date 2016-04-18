@@ -1,25 +1,57 @@
 export USE_APPLE_PB_SUPPORT = all
 RC_OS = macos
 OFLAG = -Os
-ifneq "$(RC_MAJOR_RELEASE_TRAIN)" "Tiger"
-KERN = -fno-builtin -finline -fno-keep-inline-functions -fsigned-bitfields \
-       -msoft-float -nostdinc \
-       -iwithsysroot /System/Library/Frameworks/Kernel.framework/PrivateHeaders/libsa \
-       -iwithsysroot /System/Library/Frameworks/Kernel.framework/PrivateHeaders \
-       -iwithsysroot /System/Library/Frameworks/Kernel.framework/Headers/libsa \
-       -iwithsysroot /System/Library/Frameworks/Kernel.framework/Headers/bsd \
-       -iwithsysroot /System/Library/Frameworks/Kernel.framework/Headers \
-       -DKERNEL -DKERNEL_PRIVATE -DAPPLE -DNeXT -DLIBSA_PRIVATE
-else
-KERN = -fno-builtin -finline -fno-keep-inline-functions -fsigned-bitfields \
-       -msoft-float -nostdinc \
-       -I$(NEXT_ROOT)/System/Library/Frameworks/Kernel.framework/PrivateHeaders/libsa \
-       -I$(NEXT_ROOT)/System/Library/Frameworks/Kernel.framework/PrivateHeaders \
-       -I$(NEXT_ROOT)/System/Library/Frameworks/Kernel.framework/Headers/libsa \
-       -I$(NEXT_ROOT)/System/Library/Frameworks/Kernel.framework/Headers/bsd \
-       -I$(NEXT_ROOT)/System/Library/Frameworks/Kernel.framework/Headers \
-       -DKERNEL -DKERNEL_PRIVATE -DAPPLE -DNeXT -DLIBSA_PRIVATE
+
+KERNEL_FRAMEWORK = $(NEXT_ROOT)/System/Library/Frameworks/Kernel.framework
+
+KERN_HEADERS_PATH =
+KERN_PRIVATE_HEADERS_PATH =
+
+ifneq ($(wildcard $(KERNEL_FRAMEWORK)/Headers/.),)
+	KERN_HEADERS_PATH = $(KERNEL_FRAMEWORK)/Headers
 endif
+ifneq ($(wildcard $(KERNEL_FRAMEWORK)/PrivateHeaders/.),)
+	KERN_PRIVATE_HEADERS_PATH = $(KERNEL_FRAMEWORK)/PrivateHeaders
+endif
+
+LIBSA_KERN_HEADERS_PATH =
+LIBSA_KERN_PRIVATE_HEADERS_PATH =
+
+ifneq ($(wildcard $(KERN_HEADERS_PATH)/libsa/.),)
+	LIBSA_KERN_HEADERS_PATH = $(KERN_HEADERS_PATH)/libsa
+endif
+ifneq ($(wildcard $(KERN_PRIVATE_HEADERS_PATH)/libsa/.),)
+	LIBSA_KERN_PRIVATE_HEADERS_PATH = $(KERN_PRIVATE_HEADERS_PATH)/libsa
+endif
+
+BSD_KERN_HEADERS_PATH =
+
+ifneq ($(wildcard $(KERN_HEADERS_PATH)/bsd/.),)
+	BSD_KERN_HEADERS_PATH = $(KERN_HEADERS_PATH)/bsd
+endif
+
+ifneq "$(RC_MAJOR_RELEASE_TRAIN)" "Tiger"
+
+PATHS_OF_HEADERS = $(if $(strip $(LIBSA_KERN_PRIVATE_HEADERS_PATH)), -iwithsysroot $(LIBSA_KERN_PRIVATE_HEADERS_PATH) ) \
+       $(if $(strip $(KERN_PRIVATE_HEADERS_PATH)), -iwithsysroot $(KERN_PRIVATE_HEADERS_PATH) ) \
+         $(if $(strip $(LIBSA_KERN_HEADERS_PATH)), -iwithsysroot $(LIBSA_KERN_HEADERS_PATH) ) \
+           $(if $(strip $(BSD_KERN_HEADERS_PATH)), -iwithsysroot $(BSD_KERN_HEADERS_PATH) ) \
+               $(if $(strip $(KERN_HEADERS_PATH)), -iwithsysroot $(KERN_HEADERS_PATH) )
+
+else
+
+PATHS_OF_HEADERS = $(if $(strip $(LIBSA_KERN_PRIVATE_HEADERS_PATH)), -I$(LIBSA_KERN_PRIVATE_HEADERS_PATH) ) \
+       $(if $(strip $(KERN_PRIVATE_HEADERS_PATH)), -I$(KERN_PRIVATE_HEADERS_PATH) ) \
+         $(if $(strip $(LIBSA_KERN_HEADERS_PATH)), -I$(LIBSA_KERN_HEADERS_PATH) ) \
+           $(if $(strip $(BSD_KERN_HEADERS_PATH)), -I$(BSD_KERN_HEADERS_PATH) ) \
+               $(if $(strip $(KERN_HEADERS_PATH)), -I$(KERN_HEADERS_PATH) )
+
+endif
+
+KERN = -fno-builtin -finline -fno-keep-inline-functions -fsigned-bitfields \
+       -msoft-float -nostdinc \
+       $(PATHS_OF_HEADERS) \
+       -DKERNEL -DKERNEL_PRIVATE -DAPPLE -DNeXT -DLIBSA_PRIVATE
 
 KERN += -D__DARWIN_UNIX03=__arm__
 
@@ -30,14 +62,23 @@ ifneq "clang" "$(notdir $(CC))"
   PG = -pg
 endif
 
+SDK =
+
 ifneq "" "$(SDKROOT)"
   SDK = -isysroot $(SDKROOT)
   CC = $(shell xcrun -find -sdk $(SDKROOT) cc)
   LIBTOOL = $(shell xcrun -find -sdk $(SDKROOT) libtool)
   RANLIB = $(shell xcrun -find -sdk $(SDKROOT) ranlib)
   NMEDIT = $(shell xcrun -find -sdk $(SDKROOT) nmedit)
-  SEG_HACK = $(shell xcrun -find -sdk $(SDKROOT) seg_hack)
+else
+  CC = $(shell xcrun -find cc)
+  LIBTOOL = $(shell xcrun -find libtool)
+  RANLIB = $(shell xcrun -find ranlib)
+  NMEDIT = $(shell xcrun -find nmedit)
 endif
+
+SEG_HACK = $(shell which seg_hack)
+
 CFLAGS = -g -I$(SRCROOT) -I$(SRCROOT)/../include -I$(OFILE_DIR) -Wall \
 	 $(GCC_FLAGS) $(SDK)
 
@@ -62,7 +103,11 @@ OBJROOT = .
 OFILE_DIRS = $(OBJROOT)/ld_dir $(OBJROOT)/shlib_obj $(OBJROOT)/profile_obj \
 	     $(OBJROOT)/optimized_obj $(OBJROOT)/dynamic_obj \
 	     $(OBJROOT)/ptmp_obj $(OBJROOT)/otmp_obj $(OBJROOT)/dtmp_obj \
-	     $(OBJROOT)/sarld_dir $(OBJROOT)/dynamic_kld $(OBJROOT)/static_kld
+	     $(OBJROOT)/sarld_dir
+
+ifeq "$(OLD_LIBKLD)" "YES"
+   OFILE_DIRS += $(OBJROOT)/dynamic_kld $(OBJROOT)/static_kld
+endif
 
 BINDIR = /bin
 USRBINDIR = /usr/bin
@@ -93,7 +138,7 @@ OBJS = $(CFILES:.c=.o)
 INSTALL_FILES = $(CFILES) $(HFILES) Makefile notes \
 		librld.ofileList
 
-all:	$(OFILE_DIRS) $(SYMROOT) ld_build kld_build lib_ofiles
+all:	$(OFILE_DIRS) $(SYMROOT) ld_build $(if $(filter $(OLD_LIBKLD),"YES"),kld_build) lib_ofiles
 
 macos_lib_ofiles:
 
